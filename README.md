@@ -55,6 +55,8 @@ to communicate with Vast.ai and execute steps 1 and 2.
    ```shell script
    $ python vastai_connector.py
    ```
+   If you are running the script for the first time, you are asked to provide
+   you Vast.ai e-mail address and password.
    
 4. Do your work ...
 
@@ -76,3 +78,4 @@ to communicate with Vast.ai and execute steps 1 and 2.
 2. Add an infinite loop after step 5:
     The loop can be stopped by keyboard interrupt (Ctrl + C). After the loop
     is stopped, the script closes the tunnels and deletes the instance.
+3. Add `requirements.txt`
