@@ -38,3 +38,35 @@ time.
 We use the official CLI application (the `vast.py` file) 
 to communicate with Vast.ai and execute steps 1 and 2.
 
+## How to use the script
+
+*Warning: For now the script was tested only on Ubuntu 19.04 with Anaconda*
+
+1. Clone the repository
+
+   ```shell script
+   $ git clone https://github.com/msvana/vastai-connector.git
+   $ cd vastai-connector/
+   ```
+
+2. Modify the constants in `vastai_connector.py` to match your needs.
+3. Execute the script
+
+   ```shell script
+   $ python vastai_connector.py
+   ```
+   
+4. Do your work ...
+
+5. After you are done, you need to manually kill the SSH tunnel processes for example
+   by executing:
+   
+   ```shell script
+   $ killall ssh
+   ```
+   
+   This will also kill all other SSH connections.
+   You can then delete the your Vast.ai instance using their web interface.
+   
+   *This step will be changed in the future*
+   
