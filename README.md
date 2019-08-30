@@ -70,3 +70,9 @@ to communicate with Vast.ai and execute steps 1 and 2.
    
    *This step will be changed in the future*
    
+## TODO
+
+1. Use command line arguments instead of constants to provide machine search criteria and port numbers
+2. Add an infinite loop after step 5:
+    The loop can be stopped by keyboard interrupt (Ctrl + C). After the loop
+    is stopped, the script closes the tunnels and deletes the instance.
