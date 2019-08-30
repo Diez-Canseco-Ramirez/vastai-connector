@@ -12,8 +12,10 @@ API_KEY_PATH = os.path.expanduser('~/.vast_api_key')
 # Machine search criteria
 MIN_CPU = 6
 MIN_RAM = 16
-MAX_RATE = 0.3x`
+MAX_RATE = 0.3
 IMAGE = 'pytorch/pytorch'
+
+# Tunnel configuration
 JUPYTER_PORT = 8080
 SSH_TUNNEL_PORT = 8022
 
