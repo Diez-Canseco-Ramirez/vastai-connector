@@ -1,36 +1,48 @@
+import argparse
 import json
 import os
+import sys
 import time
 import warnings
 
-warnings.filterwarnings("ignore")
+warnings.filterwarnings('ignore')
 
 BASE_PATH = os.path.dirname(__file__)
 VAST_COMMAND_PATH = os.path.join(BASE_PATH + 'vast.py')
 API_KEY_PATH = os.path.expanduser('~/.vast_api_key')
 
-# Machine search criteria
-MIN_CPU = 6
-MIN_RAM = 16
-MAX_RATE = 0.3
-IMAGE = 'pytorch/pytorch'
-
-# Tunnel configuration
-JUPYTER_PORT = 8080
-SSH_TUNNEL_PORT = 8022
-
 
 def main():
+    argument_parser = construct_argument_parser()
+    args = argument_parser.parse_args(sys.argv[1:])
+
     log_in()
-    top_offer = get_top_offer(MIN_CPU, MIN_RAM, MAX_RATE)
-    instance_id = create_instance(top_offer, IMAGE)
+
+    print('Machine criteria:')
+    print('\tMin. CPU cores:\t%d' % args.cpu_cores)
+    print('\tMin. RAM:\t%dGB' % args.memory)
+    print()
+
+    top_offer = get_top_offer(args.cpu_cores, args.memory)
+    instance_id = create_instance(top_offer, args.image)
     print('Waiting 1 minute for initialization')
     time.sleep(60)
+
     ssh_host, ssh_port = get_ssh_connection_details(instance_id)
     install_jupyter(ssh_host, ssh_port)
     start_jupyter(ssh_host, ssh_port)
-    create_jupyter_tunnel(ssh_host, ssh_port, JUPYTER_PORT)
-    create_ssh_tunnel(ssh_host, ssh_port, SSH_TUNNEL_PORT)
+    create_jupyter_tunnel(ssh_host, ssh_port, args.jupyter_port)
+    create_ssh_tunnel(ssh_host, ssh_port, args.ssh_port)
+
+
+def construct_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--cpu-cores', type=int, help='Minimal number of CPU cores on the machine', default=1)
+    parser.add_argument('-m', '--memory', type=int, help='Minimal amount of RAM in gigabytes', default=1)
+    parser.add_argument('-i', '--image', type=str, help='Name of the docker image to deploy', default='pytorch/pytorch')
+    parser.add_argument('-j', '--jupyter-port', type=int, help='Local port for Jupyter', default=8080)
+    parser.add_argument('-s', '--ssh-port', type=int, help='Local port for SSH', default=8022)
+    return parser
 
 
 def log_in():
@@ -41,7 +53,7 @@ def log_in():
 
 def get_top_offer(min_cpu: int, min_ram: float, max_rate: float) -> dict:
     print('Searching for offers')
-    command = "python %s search offers 'cpu_cores_effective > %d cpu_ram > %f dph < %f dph > %f' --raw"
+    command = "python %s search offers 'cpu_cores_effective > %d cpu_ram > %f dph > %f' --raw"
     output_buffer = os.popen(command % (VAST_COMMAND_PATH, min_cpu - 1, min_ram, max_rate, 0.1))
     offers = json.load(output_buffer)
     offers.sort(key=lambda o: o['dph_total'])

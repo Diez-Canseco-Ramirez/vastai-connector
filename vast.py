@@ -9,8 +9,9 @@ import argparse
 import os
 import requests
 import getpass
+import warnings
 
-
+warnings.filterwarnings('ignore')
 
 try:
     from urllib import quote_plus  # Python 2.X
@@ -305,8 +306,8 @@ def parse_query(query_str, res=None):
             field = field_alias[field];
 
 
-        if not field in fields:
-            print("Warning: Unrecognized field: {}, see list of recognized fields.".format(field), file=sys.stderr);
+        #if not field in fields:
+        #    print("Warning: Unrecognized field: {}, see list of recognized fields.".format(field), file=sys.stderr);
         if not op_name:
             raise ValueError("Unknown operator. Did you forget to quote your query? " + repr(op).strip("u"))
         if op_name in ["in", "notin"]:
