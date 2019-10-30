@@ -33,6 +33,15 @@ def main():
     create_jupyter_tunnel(ssh_host, ssh_port, args.jupyter_port)
     create_ssh_tunnel(ssh_host, ssh_port, args.ssh_port)
 
+    print('Use keyboard interrupt to destroy the machine')
+
+    while True:
+        try:
+            time.sleep(2)
+        except KeyboardInterrupt:
+            destroy_instance(instance_id)
+            break
+
 
 def construct_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
@@ -157,6 +166,13 @@ def create_ssh_tunnel(host, ssh_port, ssh_local_port):
     print('Opening SSH tunnel on port %d' % ssh_local_port)
     command = 'ssh -fN -p %d root@%s -L %d:localhost:22'
     os.system(command % (ssh_port, host, ssh_local_port))
+    print('Done')
+
+
+def destroy_instance(instance_id: int):
+    print('Destroying instance %d' % instance_id)
+    command = 'python %s destroy instance %d --raw'
+    os.system(command % (VAST_COMMAND_PATH, instance_id))
     print('Done')
 
 

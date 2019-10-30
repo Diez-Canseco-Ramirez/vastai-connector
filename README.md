@@ -46,7 +46,7 @@ to communicate with Vast.ai and execute steps 1 and 2.
    $ cd vastai-connector/
    ```
 
-3. Execute the script
+2. Execute the script
 
    ```shell script
    $ python vastai_connector.py --cpu-cores 6 --memory 16 --jupyter-port 8081
@@ -67,23 +67,11 @@ to communicate with Vast.ai and execute steps 1 and 2.
    - `--download-speed`: minimal download speed of the machine in Mbps (default value: `50`)
    - `--cuda`: requested CUDA version (default: `10.0`)
    
-4. Do your work ...
+3. Do your work ...
 
-5. After you are done, you need to manually kill the SSH tunnel processes for example
-   by executing:
-   
-   ```shell script
-   $ killall ssh
-   ```
-   
-   This will also kill all other SSH connections.
-   You can then delete the your Vast.ai instance using their web interface.
-   
-   *This step will be changed in the future*
+4. After you are done with your work, you can destroy the server using keyboard interrupt (eg. `Ctrl+C`) 
+in the script.
    
 ## TODO
 
-1. Add an infinite loop after step 5:
-    The loop can be stopped by keyboard interrupt (Ctrl + C). After the loop
-    is stopped, the script closes the tunnels and deletes the instance.
-2. Add `requirements.txt`
+1. Add `requirements.txt`
