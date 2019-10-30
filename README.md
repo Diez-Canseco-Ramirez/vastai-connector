@@ -58,11 +58,14 @@ to communicate with Vast.ai and execute steps 1 and 2.
    - `--help`: displays basic information about the script and its command line arguments
    - `-c`, `--cpu-cores`: minimal number of CPU cores you need (default value: `1`)
    - `-m`, `--memory`: minimal amount of RAM in gigabytes (default value: `1`)
-   - `-i`, `--image`: name of the Docker image to deploy (default value: `pytorch/pytorch`)
+   - `-i`, `--image`: name of the Docker image to deploy (default value: `vastai/pytorch`)
    - `-j`, `--jupyter-port`: local port for a Jupyter notebook tunnel. You will be able to 
       access Jupyter notebook on `http://localhost:[jupyter_port]/` (default value: `8080`)
    - `-s`, `--ssh-port`: local port for tunneled SSH access. You will be able to connect to the 
       instance by executing `ssh root@localhost -p [ssh_port]` (default value: `8022`)
+   - `-d`, `--disk-space`: disk space in GB to allocate on the machine (default value: `5`)
+   - `--download-speed`: minimal download speed of the machine in Mbps (default value: `50`)
+   - `--cuda`: requested CUDA version (default: `10.0`)
    
 4. Do your work ...
 
@@ -84,4 +87,3 @@ to communicate with Vast.ai and execute steps 1 and 2.
     The loop can be stopped by keyboard interrupt (Ctrl + C). After the loop
     is stopped, the script closes the tunnels and deletes the instance.
 2. Add `requirements.txt`
-3. Better machine state monitoring
